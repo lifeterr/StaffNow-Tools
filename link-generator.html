@@ -55,7 +55,6 @@
   .history-copy:hover { opacity: .8; }
   .no-history { font-size: 13px; color: var(--text-secondary); text-align: center; padding: 20px; }
   .clear-btn { font-size: 12px; color: var(--text-secondary); background: none; border: none; cursor: pointer; text-decoration: underline; margin-top: 8px; display: block; }
-  .note { font-size: 12px; color: var(--text-secondary); margin-top: 8px; font-style: italic; }
 </style>
 </head>
 <body>
@@ -70,16 +69,15 @@
     <label for="source-select">Traffic source</label>
     <select id="source-select" onchange="clearResult()">
       <option value="">— Select a source —</option>
-      <option value="Facebook">Facebook / Instagram</option>
+      <option value="Facebook/Instagram">Facebook/Instagram</option>
       <option value="Website">Website</option>
       <option value="Indeed">Indeed</option>
       <option value="Craigslist">Craigslist</option>
       <option value="Google Jobs">Google Jobs</option>
-      <option value="A friend">A Friend (Referral)</option>
+      <option value="A friend">A friend</option>
       <option value="Handshake">Handshake</option>
       <option value="Other">Other</option>
     </select>
-    <p class="note">Facebook and Instagram are combined since both are Meta platforms.</p>
   </div>
 
   <div class="card">
