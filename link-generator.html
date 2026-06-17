@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +31,6 @@
   input[type="text"], select { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text); background: white; transition: border-color .15s; }
   input[type="text"]:focus, select:focus { outline: none; border-color: var(--brand); }
   select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
-  .custom-source-wrap { margin-top: 12px; display: none; }
   .generate-btn { width: 100%; padding: 16px; background: var(--brand); color: white; border: none; border-radius: var(--radius); font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: opacity .15s; }
   .generate-btn:hover { opacity: .9; }
   .result-card { background: var(--success-light); border: 1.5px solid #9FE1CB; border-radius: var(--radius); padding: 20px 24px; display: none; }
@@ -55,6 +55,7 @@
   .history-copy:hover { opacity: .8; }
   .no-history { font-size: 13px; color: var(--text-secondary); text-align: center; padding: 20px; }
   .clear-btn { font-size: 12px; color: var(--text-secondary); background: none; border: none; cursor: pointer; text-decoration: underline; margin-top: 8px; display: block; }
+  .note { font-size: 12px; color: var(--text-secondary); margin-top: 8px; font-style: italic; }
 </style>
 </head>
 <body>
@@ -67,19 +68,18 @@
 
   <div class="card">
     <label for="source-select">Traffic source</label>
-    <select id="source-select" onchange="handleSourceChange()">
+    <select id="source-select" onchange="clearResult()">
       <option value="">— Select a source —</option>
+      <option value="Facebook">Facebook / Instagram</option>
+      <option value="Website">Website</option>
       <option value="Indeed">Indeed</option>
       <option value="Craigslist">Craigslist</option>
-      <option value="Facebook">Facebook</option>
-      <option value="Website">Our Website</option>
-      <option value="Instagram">Instagram</option>
-      <option value="Referral">Referral</option>
-      <option value="custom">+ Add custom source…</option>
+      <option value="Google Jobs">Google Jobs</option>
+      <option value="A friend">A Friend (Referral)</option>
+      <option value="Handshake">Handshake</option>
+      <option value="Other">Other</option>
     </select>
-    <div class="custom-source-wrap" id="custom-source-wrap">
-      <input type="text" id="custom-source" placeholder="Type source name (e.g. TikTok, Job Fair…)">
-    </div>
+    <p class="note">Facebook and Instagram are combined since both are Meta platforms.</p>
   </div>
 
   <div class="card">
@@ -112,22 +112,10 @@
   var currentUrl = '';
   var history = JSON.parse(localStorage.getItem('sn_link_history') || '[]');
 
-  function handleSourceChange() {
-    var val = document.getElementById('source-select').value;
-    document.getElementById('custom-source-wrap').style.display = val === 'custom' ? 'block' : 'none';
-    clearResult();
-  }
-
-  function getSource() {
-    var sel = document.getElementById('source-select').value;
-    if (sel === 'custom') return document.getElementById('custom-source').value.trim();
-    return sel;
-  }
-
   function generate() {
-    var source = getSource();
-    var jobId = document.getElementById('job-id').value.trim();
-    if (!source) { alert('Please select or enter a traffic source.'); return; }
+    var source = document.getElementById('source-select').value;
+    var jobId  = document.getElementById('job-id').value.trim();
+    if (!source) { alert('Please select a traffic source.'); return; }
     if (!jobId)  { alert('Please enter a Job ID.'); return; }
     currentUrl = BASE_URL + '?usp=pp_url&' + JOB_ENTRY + '=' + encodeURIComponent(jobId) + '&' + SRC_ENTRY + '=' + encodeURIComponent(source);
     document.getElementById('result-url').textContent = currentUrl;
